@@ -1,0 +1,172 @@
+Documentation for the "Luck Tester" Game
+
+Overview
+The "Luck Tester" game is a simple number guessing game developed using Python and the Tkinter library for the graphical user interface (GUI). The game involves three buttons, each displaying a random number between 0 and 100. The player’s goal is to guess which button contains the randomly chosen secret number. If the player clicks the button with the correct number, they win and a new game starts. If they click the wrong button, they are prompted to try again.
+
+Table of Contents
+1. [Prerequisites]
+2. [How to Run the Game]
+3. [Code Explanation]
+    - Libraries
+    - Global Variables
+    - Functions and Events
+    - GUI Components
+4. [Game Logic]
+5. [Potential Enhancements]
+
+---
+
+Prerequisites
+To run this project, you'll need the following:
+- Python installed on your system (version 3.x recommended).
+- Tkinter, which is included by default in most Python distributions.
+
+How to Run the Game
+1. Copy the provided code into a Python file (e.g., `guess_it.py`).
+2. Open a terminal or command prompt.
+3. Navigate to the directory where you saved the file.
+4. Run the command:
+    ```bash
+    python guess_it.py
+    ```
+5. The game window should open, displaying the interface.
+
+Code Explanation
+
+Libraries
+```python
+from tkinter import *
+import random
+```
+- Tkinter: A Python library used to create the graphical user interface (GUI).
+- random: Used to generate random numbers and select a random button for the secret number.
+
+Global Variables
+```python
+root = Tk()
+root.title("Luck Tester")
+root.geometry("250x150")
+
+secret_number = "none"
+```
+- root: The main window for the game.
+- secret_number: A global variable to store the randomly chosen secret number.
+
+Functions and Events
+
+1. `StartGame()`
+This function initializes a new game by assigning random numbers to the buttons and selecting one button to hold the secret number.
+
+```python
+def StartGame():
+    global secret_number
+   
+    # Assign a random number to each button
+    for button in button_list:
+        button.config(text=str(random.randint(0, 100)))
+    
+    # Randomly select one button as the secret number
+    randomButton = random.choice(button_list)
+    secret_number = randomButton.cget("text")
+
+    print("Secret Number is: ", secret_number)
+```
+
+Explanation:
+- Each button is assigned a random number between 0 and 100.
+- One button is randomly selected, and its number is set as the secret number.
+
+2. `OnClick(event)`
+This function handles button clicks and checks if the clicked button contains the secret number.
+
+```python
+def OnClick(event):
+    btn = event.widget
+    buttonText = btn.cget("text")
+
+    # Check if the clicked button has the secret number
+    if secret_number == buttonText:
+        answer_label.config(text="Yes it was " + secret_number)
+        StartGame()  # Restart the game
+    else:
+        answer_label.config(text="No try sporty o!!!")
+        StartGame()  # Restart the game
+```
+
+Explanation:
+- When a button is clicked, the function retrieves the button's text.
+- It compares the button's text with the `secret_number`.
+- If the player guesses correctly, a success message is displayed, and a new game starts.
+- If the guess is incorrect, the player is prompted to try again, and the game resets.
+
+GUI Components
+The game uses Tkinter widgets to create the interface.
+
+1. Labels and Buttons
+```python
+title_label = Label(root, text="Guess the secret number", font=("Helvetical 12"), pady=8, justify="center")
+button_one = Button(root, text="00", font=("Helvetical 15"), width=6, pady=15, bg="red")
+button_two = Button(root, text="00", font=("Helvetical 15"), width=6, pady=15, bg="skyblue")
+button_three = Button(root, text="00", font=("Helvetical 15"), width=6, pady=15, bg="green")
+```
+
+- title_label: Displays the game title.
+- button_one, button_two, button_three: The buttons that the player clicks to guess the secret number.
+
+2. Answer Label
+```python
+answer_label = Label(root, text="Answer", font=("Helvetical 15"), pady=9, fg="black", justify="center")
+```
+- Displays feedback to the player after each guess.
+
+3. Button List
+```python
+button_list = [button_one, button_two, button_three]
+```
+- A list of buttons to easily iterate over when assigning numbers and selecting the secret number.
+
+Placing Components in the Window
+```python
+title_label.grid(row=0, column=0, columnspan=3)
+button_one.grid(row=1, column=0)
+button_two.grid(row=1, column=1)
+button_three.grid(row=1, column=2)
+answer_label.grid(row=2, column=0, columnspan=3)
+```
+
+Binding Buttons to Click Event
+```python
+button_one.bind("<Button-1>", OnClick)
+button_two.bind("<Button-1>", OnClick)
+button_three.bind("<Button-1>", OnClick)
+```
+
+- Binding: Associates the `OnClick` function with each button so that it triggers when the button is clicked.
+
+Starting the Game
+```python
+StartGame()
+root.mainloop()
+```
+
+- StartGame(): Initializes the first game.
+- root.mainloop(): Runs the Tkinter event loop, allowing the window to stay open until manually closed.
+
+---
+
+Game Logic
+1. When the game starts, three buttons are displayed, each with a random number between 0 and 100.
+2. The program secretly selects one button's number as the "secret number."
+3. The player clicks a button to guess the secret number.
+   - If correct, a success message is shown, and a new game starts.
+   - If incorrect, an error message is shown, and the game restarts.
+
+Potential Enhancements
+Here are some ideas for extending the functionality of the game:
+1. Difficulty Levels: Add more buttons or adjust the range of numbers based on difficulty.
+2. Scoring System: Track the player's score and display it.
+3. Lives: Allow the player a limited number of attempts before the game resets completely.
+4. Timer: Add a countdown timer to increase the challenge.
+5. Sound Effects: Play sounds when the player guesses correctly or incorrectly.
+
+This concludes the documentation for the "Luck Tester" game. Happy coding and guessing!
